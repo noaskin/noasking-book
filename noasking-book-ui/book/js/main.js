@@ -196,6 +196,54 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', function($stateProvi
             data: {pageTitle: 'User Help'}
         })
 
+        // 书籍目录
+        .state('directory', {
+            url: "/directory",
+            templateUrl: "views/bookcontent/book_directory.html",
+            data: {pageTitle: 'Book Directory'},
+            controller: "BookDirectoryController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../lib/editormd/editormd.css',
+
+
+                            '../lib/editormd/editormd.js',
+
+                            'views/bookcontent/BookDirectoryController.js'
+
+                        ]
+                    });
+                }]
+            }
+        })
+
+        // 书籍章节内容
+        .state('directory.chapter', {
+            url: "/chapter/{id}?params",
+            templateUrl: "views/bookcontent/book_chapter.html",
+            data: {pageTitle: 'Book Chapter'},
+            controller: "BookChapterController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../lib/editormd/editormd.css',
+
+                            'views/bookcontent/BookChapterController.js',
+
+                            '../lib/editormd/editormd.js'
+                        ]
+                    });
+                }]
+            }
+        })
+
 }]);
 
 
